@@ -1,3 +1,2 @@
-from django.db import models
+# promos/models.py
 
-# Create your models here.
