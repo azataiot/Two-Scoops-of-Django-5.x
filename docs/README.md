@@ -153,5 +153,79 @@ requirements/
    ├── production.txt
 ```
 
-## Model best practices
+## 6. Model best practices
+
+recommended 3rd parties: 
+
+- `django-model-utils`
+- `django-extensions`
+
+Recommendations:
+
+- Avoid using BinaryField
+- Try to avoid using generic relations 
+- Make choices and sub-choices model constants
+- `objects = models.Manager()` should be defined manually above any custom model manager.
+
+## 7. Queries and the Database Layer
+
+- Use `get_object_or_404` for single object
+
+​	Note: there is also `get_list_or_404`
+
+​	**Only use it in views**
+
+- Queries that might throws exceptions (models) 
+
+  - `execpt Flavor.DoseNotExist`
+  - `except ObjectDoseNotExist`
+
+- Use lazy evaluation to make queries legible 
+
+- Chaining queries for legibility
+
+  ```python
+  from django.db.models import Q
+  from promos.models import Promo
+  
+  
+  def fun_function(name=None):
+      """Find working ice cream promo"""
+      qs = (
+          Promo.objects.active()
+          .filter(Q(name__startswith=name) | Q(description__icontains=name))
+          .exclude(status="melted")
+          .select_related("flavors")
+      )
+  
+  
+  return qs
+  ```
+
+- Instead of managing data with Python, always try to use Django’s advanced query tools
+
+- Use Database Functions   https://docs.djangoproject.com/en/5.0/ref/models/database-functions/ 
+
+- Don’t drop down to raw SQL until it’s necessary 
+
+- Add indexes as needed 
+
+  - start with no index 
+  - add if used frequently, as in 10-25% of all queries. 
+
+- Use transaction when need **ACID**
+
+  ```python
+  ...
+    with transaction.atomic():
+    # This code executes inside a transaction. 
+      flavor.status = status 
+      flavor.latest_status_change_success = timezone.now() 
+      flavor.save()
+    return HttpResponse('Hooray')
+  ```
+
+- It’s imposiible to handle transaction errors in `django.http.StreamingHttpResponse`
+
+
 
