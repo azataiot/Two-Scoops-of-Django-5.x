@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "icecreamratings.apps.IcecreamratingsConfig",
     "core.apps.CoreConfig",
-    "flavors.apps.FlavorsConfig"
+    "flavors.apps.FlavorsConfig",
+    "promos.apps.PromosConfig"
 ]
 
 MIDDLEWARE = [
