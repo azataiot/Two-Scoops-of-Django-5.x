@@ -278,9 +278,101 @@ Recommendations:
 - Keep view logic out of **URLConf**
 
   ```python
-  ```
-
+  # tastings/views.py
   
+  from django.views.generic import ListView, DetailView, UpdateView
+  from .models import Tasting
+  from django.urls import reverse
+  
+  
+  class TasteListView(ListView):
+      model = Tasting
+  
+  
+  class TasteDetailView(DetailView):
+      model = Tasting
+  
+  
+  class TasteResultsView(ListView):
+      template_name = 'tastings/results.html'
+  
+  
+  class TasteUpdateView(UpdateView):
+      model = Tasting
+  
+      def get_success_url(self):
+          return reverse('tastings:detail',
+                         kwargs={
+                             'pk': self.object.pk,
+                         })
+  ```
+  
+  ```python
+  # tastings/urls.py
+  from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+      path(
+          route='',
+          view=views.TasteListView.as_view(),
+          name='list'
+      ),
+      path(
+          route='<int:pk>/',
+          view=views.TasteDetailView.as_view(),
+          name='detail'
+      ),
+      path(
+          route='<int:pk>/results/',
+          view=views.TasteResultsView.as_view(),
+          name='results'
+      ),
+      path(
+          route='<int:pk>/update/',
+          view=views.TasteUpdateView.as_view(),
+          name='update'
+      ),
+  ]
+  ```
+  
+- Makes for Shorter, More Intuitive, and Don’t Repeat Yourself URL Names
+
+## 9. Best practices for function based views
+
+## 10. Best Practices for class based views
+
+```python
+# Example 10.1: Using Mixins in a View
+
+class FreshFruitMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["has_fresh_fruit"] = True
+        return context
 
 
+class FruityFlavorView(FreshFruitMixin, TemplateView):
+    template_name = "fruity_flavor.html"
+```
+
+- Mixin must always go on the far left side.
+- The base view class must always go on the far right side.
+- Performing Custom Actions on Views With Valid Forms `def form_valid(self, form):`
+- Performing Custom Actions on Views With Invalid Forms `def form_invalid(self, form):` 
+
+```html
+{% if messages %}
+<ul class="messages">
+   {% for message in messages %}
+   <li id="message_{{ forloop.counter }}"
+   {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+   {{ message }}
+   </li>
+   {% endfor %} 
+</ul>
+{% endif %}
+```
+
+## 11. Asynchronous views
 
