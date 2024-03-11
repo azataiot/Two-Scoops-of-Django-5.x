@@ -1,1 +1,4 @@
 Example 3.4: Layout for icecreamratings
+
+
+For use in development only: user-generated static media assets such as photos uploaded by users.
