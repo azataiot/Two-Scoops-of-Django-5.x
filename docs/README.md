@@ -227,5 +227,16 @@ Recommendations:
 
 - It’s imposiible to handle transaction errors in `django.http.StreamingHttpResponse`
 
+## 8. Function and Class based views
+
+- Prefer CBVs for most views. 
+
+- Keep view logic out of **URLConf**
+
+  ```python
+  ```
+
+  
+
 
 

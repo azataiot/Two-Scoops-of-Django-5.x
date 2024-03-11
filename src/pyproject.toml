@@ -1,0 +1,36 @@
+# Declaring the build backend
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#declaring-the-build-backend
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "djangoproject"
+version = "0.1.0"
+dependencies = [
+    "django>=5.0",
+    "pip-tools",
+]
+requires-python = ">=3.12"
+authors = [
+    { name = "Azat", email = "8280770+azataiot@users.noreply.github.com" },
+]
+maintainers = [
+    { name = "Azat", email = "8280770+azataiot@users.noreply.github.com" },
+]
+description = "This is a Django Project (as name already indicates) showcasing django best practices."
+readme = "README.md"
+license = "MIT"
+keywords = ["django", "best-practices", "project", "django-project", "django-rest-framework", "django-ninja", "rest", "restful", "API"]
+classifiers = [
+    "Programming Language :: Python"
+]
+
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.urls]
+homepage = "https://github.com/azataiot/djangoproject"
+repository = "https://github.com/azataiot/djangoproject"
+
