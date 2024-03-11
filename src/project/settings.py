@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "icecreamratings.apps.IcecreamratingsConfig",
     "core.apps.CoreConfig",
     "flavors.apps.FlavorsConfig",
-    "promos.apps.PromosConfig"
+    "promos.apps.PromosConfig",
+    "tastings.apps.TastingsConfig"
 ]
 
 MIDDLEWARE = [

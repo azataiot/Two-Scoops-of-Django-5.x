@@ -223,21 +223,25 @@ Recommendations:
 - Chaining queries for legibility
 
   ```python
+  # promos/views.py
+  from .models import Promo
   from django.db.models import Q
-  from promos.models import Promo
   
   
   def fun_function(name=None):
       """Find working ice cream promo"""
       qs = (
-          Promo.objects.active()
-          .filter(Q(name__startswith=name) | Q(description__icontains=name))
-          .exclude(status="melted")
-          .select_related("flavors")
+          Promo
+          .objects
+          .active()
+          .filter(
+              Q(name__startswith=name) |
+              Q(description__icontains=name)
+          )
+          .exclude(status='melted')
+          .select_related('flavors')
       )
-  
-  
-  return qs
+      return qs
   ```
 
 - Instead of managing data with Python, always try to use Django’s advanced query tools
@@ -266,6 +270,8 @@ Recommendations:
 - It’s imposiible to handle transaction errors in `django.http.StreamingHttpResponse`
 
 ## 8. Function and Class based views
+
+![CleanShot 2024-03-11 at 17.01.21](https://raw.githubusercontent.com/azataiot/images/master/2024/03/upgit_20240311_1710165690.png)
 
 - Prefer CBVs for most views. 
 
