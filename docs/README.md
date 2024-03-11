@@ -155,6 +155,44 @@ requirements/
 
 ## 6. Model best practices
 
+```python
+# core/models.py
+from django.db import models
+
+
+class TimeStampedModel(models.Model):
+    """
+    An abstract base class model that provides self-updating
+    'created' and 'updated' fields.
+    """
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        # prevent django from creating a table for this model.
+        abstract = True
+```
+
+```python
+# flavors/models.py
+from django.db import models
+
+# Create your models here.
+
+from core.models import TimeStampedModel
+
+
+class Flavor(TimeStampedModel):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+```
+
+![CleanShot 2024-03-11 at 14.49.42](https://raw.githubusercontent.com/azataiot/images/master/2024/03/upgit_20240311_1710157789.png)
+
 recommended 3rd parties: 
 
 - `django-model-utils`
